@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Webpage</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #4CAF50;
+            color: white;
+            text-align: center;
+            padding: 1em 0;
+        }
+        nav ul { 
+            list-style-type: none; 
+            padding: 0; 
+            margin: 0;
+            background-color: #333;
+        }
+        nav ul li { 
+            display: inline; 
+            margin-right: 10px; 
+            cursor: pointer;
+            color: white;
+            padding: 10px;
+        }
+        nav ul li:hover {
+            background-color: #111;
+        }
+        #content { 
+            margin-top: 20px; 
+            padding: 20px; 
+        }
+        .content-section { 
+            padding: 20px; 
+        }
+        #home { 
+            background-color: #f1f1f1; 
+        }
+        #about { 
+            background-color: #e2e2e2; 
+        }
+        #contact { 
+            background-color: #d3d3d3; 
+        }
+        #confirmation { 
+            background-color: #c4c4c4; 
+        }
+        .hidden { 
+            display: none; 
+        }
+        .error { 
+            color: red; 
+        }
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+        input, button {
+            display: block;
+            margin-top: 5px;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>My Interactive Webpage</h1>
+    </header>
+    <nav>
+        <ul>
+            <li onclick="showContent('home')">Home</li>
+            <li onclick="showContent('about')">About</li>
+            <li onclick="showContent('contact')">Contact</li>
+        </ul>
+    </nav>
+    <div id="content">
+        <div id="home" class="content-section">
+            <h2>Welcome to My Website</h2>
+            <p>This is the home page.</p>
+        </div>
+        <div id="about" class="content-section hidden">
+            <h2>About Us</h2>
+            <p>Learn more about what we do.</p>
+        </div>
+        <div id="contact" class="content-section hidden">
+            <h2>Contact Us</h2>
+            <form id="contactForm" onsubmit="return validateForm()">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required>
+                <br>
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+                <br>
+                <label for="id">ID:</label>
+                <input type="text" id="id" name="id" required>
+                <br>
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+                <br>
+                <button type="submit">Submit</button>
+                <p id="formError" class="error hidden">Please fill out all fields correctly.</p>
+            </form>
+        </div>
+        <div id="confirmation" class="content-section hidden">
+            <h2>Form Submitted Successfully!</h2>
+            <p>You have successfully submitted the form.</p>
+        </div>
+    </div>
+
+    <script>
+        function showContent(sectionId) {
+            const sections = document.querySelectorAll('.content-section');
+            sections.forEach(section => {
+                section.classList.add('hidden');
+            });
+            document.getElementById(sectionId).classList.remove('hidden');
+        }
+
+        function validateForm() {
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const id = document.getElementById('id').value;
+            const password = document.getElementById('password').value;
+            const errorElement = document.getElementById('formError');
+
+            // Simple form validation
+            if (!name || !email || !id || !password) {
+                errorElement.textContent = 'All fields are required.';
+                errorElement.classList.remove('hidden');
+                return false;
+            }
+
+            // Basic email validation
+            const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+            if (!emailPattern.test(email)) {
+                errorElement.textContent = 'Please enter a valid email address.';
+                errorElement.classList.remove('hidden');
+                return false;
+            }
+
+            errorElement.classList.add('hidden');
+
+            // Show confirmation message
+            showContent('confirmation');
+            return false; // Prevent form submission
+        }
+    </script>
+</body>
+</html>
